@@ -4,6 +4,8 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';
 
+const API_URL = process.env.REACT_APP_API_URL;
+
 export default function Login() {
   const [formData, setFormData] = useState({ email: '', password: '' });
   const [error, setError] = useState('');
@@ -16,7 +18,7 @@ export default function Login() {
     e.preventDefault();
     setError('');
     try {
-      const res = await axios.post('https://post-nd9p.onrender.com/auth/login', formData);
+      const res = await axios.post(`${API_URL}/auth/login`, formData);
       setToken(res.data.token);
       setUsername(res.data.username);
       navigate('/');
@@ -33,11 +35,25 @@ export default function Login() {
         <Form onSubmit={handleSubmit} noValidate>
           <Form.Group className="mb-3" controlId="loginEmail">
             <Form.Label>Email address</Form.Label>
-            <Form.Control type="email" name="email" placeholder="Enter email" value={formData.email} onChange={handleChange} required />
+            <Form.Control
+              type="email"
+              name="email"
+              placeholder="Enter email"
+              value={formData.email}
+              onChange={handleChange}
+              required
+            />
           </Form.Group>
           <Form.Group className="mb-4" controlId="loginPassword">
             <Form.Label>Password</Form.Label>
-            <Form.Control type="password" name="password" placeholder="Enter password" value={formData.password} onChange={handleChange} required />
+            <Form.Control
+              type="password"
+              name="password"
+              placeholder="Enter password"
+              value={formData.password}
+              onChange={handleChange}
+              required
+            />
           </Form.Group>
           <Button variant="success" type="submit" className="w-100 fw-semibold shadow-sm" size="lg">
             Login
@@ -47,4 +63,5 @@ export default function Login() {
     </Container>
   );
 }
+
 

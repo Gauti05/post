@@ -4,6 +4,8 @@ import axios from 'axios';
 import { AuthContext } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
 
+const API_URL = process.env.REACT_APP_API_URL;
+
 export default function CreatePost() {
   const [text, setText] = useState('');
   const [image, setImage] = useState(null);
@@ -14,36 +16,27 @@ export default function CreatePost() {
   const handleSubmit = async e => {
     e.preventDefault();
     setError('');
-
     if (!text.trim() && !image) {
       setError('Please enter text or select an image');
       return;
     }
-
     if (!token) {
       setError('You must be logged in to create a post');
       return;
     }
-
     try {
       const formData = new FormData();
       if (text) formData.append('text', text);
-      if (image) formData.append('image', image); 
+      if (image) formData.append('image', image);
 
-      await axios.post('https://post-nd9p.onrender.com/posts', formData, {
-        headers: {
-          Authorization: `Bearer ${token}`,  
-         
-        },
+      await axios.post(`${API_URL}/posts`, formData, {
+        headers: { Authorization: `Bearer ${token}` },
       });
 
       navigate('/');
     } catch (err) {
-      if (err.response?.status === 401) {
-        setError('Unauthorized: Please login again.');
-      } else {
-        setError('Failed to create post');
-      }
+      if (err.response?.status === 401) setError('Unauthorized: Please login again.');
+      else setError('Failed to create post');
     }
   };
 
@@ -68,7 +61,7 @@ export default function CreatePost() {
             <Form.Control
               type="file"
               accept="image/*"
-              onChange={e => setImage(e.target.files[0])}  
+              onChange={e => setImage(e.target.files[0])}
             />
           </Form.Group>
           <Button variant="primary" type="submit" className="fw-semibold px-4 py-2 shadow-sm" size="lg" block>

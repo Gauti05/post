@@ -12,7 +12,7 @@ import {
   Image,
 } from 'react-bootstrap';
 import { AuthContext } from '../context/AuthContext';
-
+const API_URL = process.env.REACT_APP_API_URL;
 export default function Feed() {
   const [posts, setPosts] = useState([]);
   const [commentTextMap, setCommentTextMap] = useState({});
@@ -23,7 +23,7 @@ export default function Feed() {
   const fetchPosts = () => {
     setLoading(true);
     axios
-      .get('https://post-nd9p.onrender.com/posts')
+      .get(`${API_URL}/posts`)
       .then(res => {
         setPosts(res.data);
         setLoading(false);
@@ -41,7 +41,7 @@ export default function Feed() {
   const likePost = postId => {
     axios
       .patch(
-        `http://localhost:5000/posts/${postId}/like`,
+        `${API_URL}/posts/${postId}/like`,
         {},
         { headers: { Authorization: `Bearer ${token}` } }
       )
@@ -57,7 +57,7 @@ export default function Feed() {
 
     axios
       .post(
-        `http://localhost:5000/posts/${postId}/comment`,
+        `${API_URL}/posts/${postId}/comment`,
         { comment: commentText },
         { headers: { Authorization: `Bearer ${token}` } }
       )
