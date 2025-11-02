@@ -23,7 +23,7 @@ export default function Feed() {
   const fetchPosts = () => {
     setLoading(true);
     axios
-      .get('http://localhost:5000/posts')
+      .get('https://post-nd9p.onrender.com/posts')
       .then(res => {
         setPosts(res.data);
         setLoading(false);

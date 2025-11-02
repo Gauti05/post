@@ -16,7 +16,7 @@ export default function Login() {
     e.preventDefault();
     setError('');
     try {
-      const res = await axios.post('http://localhost:5000/auth/login', formData);
+      const res = await axios.post('https://post-nd9p.onrender.com/auth/login', formData);
       setToken(res.data.token);
       setUsername(res.data.username);
       navigate('/');

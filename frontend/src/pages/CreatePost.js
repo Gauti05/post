@@ -30,7 +30,7 @@ export default function CreatePost() {
       if (text) formData.append('text', text);
       if (image) formData.append('image', image); 
 
-      await axios.post('http://localhost:5000/posts', formData, {
+      await axios.post('https://post-nd9p.onrender.com/posts', formData, {
         headers: {
           Authorization: `Bearer ${token}`,  
          

@@ -16,7 +16,7 @@ export default function Signup() {
     e.preventDefault();
     setError('');
     try {
-      await axios.post('http://localhost:5000/auth/signup', formData);
+      await axios.post('https://post-nd9p.onrender.com/auth/signup', formData);
       const res = await axios.post('http://localhost:5000/auth/login', {
         email: formData.email,
         password: formData.password,
