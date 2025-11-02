@@ -1,13 +1,15 @@
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
-
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { HashRouter, BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider, AuthContext } from './context/AuthContext';
 import Signup from './pages/Signup';
 import Login from './pages/Login';
 import Feed from './pages/Feed';
 import CreatePost from './pages/CreatePost';
 import NavigationBar from './components/NavigationBar';
+
+
+const AppRouter = process.env.NODE_ENV === "production" ? HashRouter : BrowserRouter;
 
 function PrivateRoute({ children }) {
   const { token } = React.useContext(AuthContext);
@@ -17,7 +19,7 @@ function PrivateRoute({ children }) {
 function App() {
   return (
     <AuthProvider>
-      <Router>
+      <AppRouter>
         <NavigationBar />
         <div className="container mt-4">
           <Routes>
@@ -28,10 +30,9 @@ function App() {
             <Route path="*" element={<Navigate to="/" />} />
           </Routes>
         </div>
-      </Router>
+      </AppRouter>
     </AuthProvider>
   );
 }
 
 export default App;
-
